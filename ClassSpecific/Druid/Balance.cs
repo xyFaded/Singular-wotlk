@@ -19,8 +19,6 @@ namespace Singular.ClassSpecific.Druid
     {
         # region Properties & Fields
 
-        private static string _oldDps = "Wrath";
-
         private static int StarfallRange { get { return TalentManager.HasGlyph("Focus") ? 20 : 40; } }
 
         private static string BoomkinDpsSpell
@@ -28,16 +26,12 @@ namespace Singular.ClassSpecific.Druid
             get
             {
                 if (StyxWoW.Me.HasAura("Eclipse (Solar)"))
-                {
-                    _oldDps = "Wrath";
-                }
-                // This doesn't seem to register for whatever reason.
-                else if (StyxWoW.Me.HasAura("Eclipse (Lunar)")) //Eclipse (Lunar) => 48518
-                {
-                    _oldDps = "Starfire";
-                }
+                    return "Wrath";
 
-                return _oldDps;
+                if (StyxWoW.Me.HasAura("Eclipse (Lunar)"))
+                    return "Starfire";
+
+                return "Wrath";
             }
         }
 
@@ -103,6 +97,9 @@ namespace Singular.ClassSpecific.Druid
 
                 // Make sure we keep IS up. Clip the last tick. (~3s)
                 Spell.Cast("Insect Swarm", ret => StyxWoW.Me.CurrentTarget.GetAuraTimeLeft("Insect Swarm", true).TotalSeconds < 3),
+
+                // Cast Typhoon if we have it
+                Spell.Cast("Typhoon", ret => SingularSettings.Instance.Druid.UseTyphoon && SpellManager.HasSpell("Typhoon")),
 
                 // And then just spam Wrath/Starfire
                 Spell.Cast("Wrath", ret => BoomkinDpsSpell == "Wrath"),
