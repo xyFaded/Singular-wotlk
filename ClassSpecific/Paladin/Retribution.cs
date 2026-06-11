@@ -101,11 +101,13 @@ namespace Singular.ClassSpecific.Paladin
                     Spell.BuffSelf("Lifeblood", ret => SpellManager.HasSpell("Lifeblood") && StyxWoW.Me.ActiveAuras.ContainsKey("Avenging Wrath")),
 
                     //Exo is above HoW if we're fighting Undead / Demon
-                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") && StyxWoW.Me.CurrentTarget.IsUndeadOrDemon()),
+                    // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") && StyxWoW.Me.CurrentTarget.IsUndeadOrDemon() || !SpellManager.HasSpell("The Art of War")),
                     //Hammer of Wrath if target < 20% HP
                     Spell.Cast("Hammer of Wrath", ret => StyxWoW.Me.CurrentTarget.HealthPercent <= 20), // WotLK: Sanctified Wrath does not unlock HoW above 20% (Cata-only)
                     //Exo if we have Art of War
-                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                    // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
 
                     // In WotLK 3.3.5a, Paladins don't have Holy Power - use simpler rotation
                     Spell.Cast("Crusader Strike"),
@@ -171,7 +173,8 @@ namespace Singular.ClassSpecific.Paladin
                     //Hammer of Wrath if target < 20% HP
                     Spell.Cast("Hammer of Wrath", ret => StyxWoW.Me.CurrentTarget.HealthPercent <= 20), // WotLK: Sanctified Wrath does not unlock HoW above 20% (Cata-only)
                     //Exo if we have Art of War
-                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                    // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
 
                     // WotLK: Holy Power doesn't exist - simplified rotation
                     Spell.Cast("Crusader Strike", ret => Unit.NearbyUnfriendlyUnits.Count(u => u.Distance <= 8) < 4 || !SpellManager.HasSpell("Divine Storm")),
@@ -228,11 +231,13 @@ namespace Singular.ClassSpecific.Paladin
                     Spell.BuffSelf("Lifeblood", ret => SpellManager.HasSpell("Lifeblood") && StyxWoW.Me.ActiveAuras.ContainsKey("Avenging Wrath")),
 
                     //Exo is above HoW if we're fighting Undead / Demon
-                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") && StyxWoW.Me.CurrentTarget.IsUndeadOrDemon()),
+                    // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") && StyxWoW.Me.CurrentTarget.IsUndeadOrDemon() || !SpellManager.HasSpell("The Art of War")),
                     //Hammer of Wrath if target < 20% HP
                     Spell.Cast("Hammer of Wrath", ret => StyxWoW.Me.CurrentTarget.HealthPercent <= 20), // WotLK: Sanctified Wrath does not unlock HoW above 20% (Cata-only)
                     //Exo is above HoW if we're fighting Undead / Demon
-                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                    // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                    Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
 
                     //crusader_strike - simplified for WotLK (no Holy Power checks)
                     Spell.Cast("Crusader Strike", ret =>
@@ -302,7 +307,8 @@ namespace Singular.ClassSpecific.Paladin
                 Spell.Cast("Hammer of Justice", ret => StyxWoW.Me.HealthPercent <= 40),
                 Spell.Cast("Crusader Strike"),
                 Spell.Cast("Hammer of Wrath"),
-                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
                 Spell.Cast("Judgement of Light"),
 
                 Movement.CreateMoveToMeleeBehavior(true)
@@ -355,7 +361,8 @@ namespace Singular.ClassSpecific.Paladin
                 Spell.Cast("Hammer of Justice", ret => StyxWoW.Me.CurrentTarget.HealthPercent <= 40),
                 Spell.Cast("Crusader Strike"),
                 Spell.Cast("Hammer of Wrath"),
-                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
                 Spell.Cast("Judgement of Light"),
                 Spell.BuffSelf("Holy Wrath"),
                 Spell.BuffSelf("Consecration"),
@@ -414,7 +421,8 @@ namespace Singular.ClassSpecific.Paladin
                 // Rotation - simplified for WotLK (no Holy Power abilities)
                 Spell.Cast("Crusader Strike"),
                 Spell.Cast("Hammer of Wrath"),
-                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War")),
+                // WotLK QC: cast unconditionally if Art of War talent is not learned (pre-lvl 40) - proc can never trigger
+                Spell.Cast("Exorcism", ret => StyxWoW.Me.ActiveAuras.ContainsKey("The Art of War") || !SpellManager.HasSpell("The Art of War")),
                 Spell.Cast("Judgement of Light"),
                 Spell.BuffSelf("Holy Wrath"),
                 Spell.BuffSelf("Consecration"),
