@@ -135,7 +135,7 @@ namespace Singular.ClassSpecific.Shaman
                             ret => StyxWoW.Me.CurrentTarget.DistanceSqr < 40 * 40,
                             Totems.CreateSetTotems()),
                         Spell.Cast("Lightning Bolt"),
-                        Movement.CreateMoveToTargetBehavior(true, 32f)
+                        Movement.CreateMoveToTargetBehavior(true, 25f) // xyFaded lowered to 25
                         )),
 
                 Common.CreateAutoAttack(true),
@@ -185,7 +185,7 @@ namespace Singular.ClassSpecific.Shaman
                                 t => t.Unit != null && t.WoWTotem == WoWTotem.Searing &&
                                      t.Unit.Location.Distance(StyxWoW.Me.CurrentTarget.Location) < Totems.GetTotemRange(WoWTotem.Searing)) &&
                            !StyxWoW.Me.Totems.Any(t => t.WoWTotem == WoWTotem.FireElemental || t.WoWTotem == WoWTotem.Magma)),
-
+                
                 // Low level stuff first.
                 new Decorator(
                     ret => StyxWoW.Me.Level < 20,
@@ -193,7 +193,7 @@ namespace Singular.ClassSpecific.Shaman
                         Spell.Cast("Lava Lash"),
                         Spell.Cast("Earth Shock"),
                         Spell.Cast("Lightning Bolt"),
-                        Movement.CreateMoveToTargetBehavior(true, 32f)
+                        Movement.CreateMoveToTargetBehavior(true, 25f) // xyFaded lowered to 25
                         )),
 
                 Spell.Cast("Stormstrike"),
